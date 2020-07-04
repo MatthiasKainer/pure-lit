@@ -1,0 +1,70 @@
+{
+  "name": "pure-lit",
+  "version": "0.0.1",
+  "description": "lit elements as functions",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "type": "module",
+  "keywords": [
+    "lit-element",
+    "lit-elements",
+    "functional",
+    "component"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "test": "jest --coverage",
+    "test:badges": "npm test && jest-coverage-badges --output ./badges",
+    "release:beta": "npm test && npm run build && npm publish --tag=beta",
+    "release:patch": "npm run test:badges && npm run build && npm version patch -m 'Creating new release %s' && git push && git push --tags && gren release",
+    "release:minor": "npm run test:badges && npm run build && npm version minor -m 'Creating new release %s' && git push && git push --tags && gren release"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.10.4",
+    "@types/jest": "^25.2.3",
+    "@typescript-eslint/eslint-plugin": "^2.27.0",
+    "@typescript-eslint/parser": "^2.27.0",
+    "jest": "^26.0.1",
+    "jest-environment-jsdom-sixteen": "^1.0.3",
+    "lit-element": "^2.3.1",
+    "ts-jest": "^26.1.0",
+    "ts-lit-plugin": "^1.1.11",
+    "typescript": "^3.9.5"
+  },
+  "peerDependencies": {
+    "lit-element": "^2.3.1"
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "printWidth": 110
+  },
+  "jest": {
+    "preset": "ts-jest/presets/js-with-babel",
+    "testEnvironment": "jest-environment-jsdom-sixteen",
+    "testPathIgnorePatterns": [
+      "build",
+      "docs"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!(lit-element|lit-html)/)"
+    ],
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx)$",
+    "coverageReporters": [
+      "json-summary",
+      "html",
+      "text"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 100,
+        "functions": 100,
+        "lines": 100,
+        "statements": 100
+      }
+    }
+  },
+  "author": "Matthias Kainer",
+  "license": "ISC"
+}
