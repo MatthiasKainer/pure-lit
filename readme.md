@@ -67,20 +67,26 @@ pureLit = <TProps>(
 ## Example using everything
 
 ```ts
-type Props = { who: string, type: string, lala: boolean, bla: boolean, blub: { } }
+type Props = { who: string }
 
 pureLit("hello-world",
-  (element: LitElementWithProps<Props>) => html`Hello <em @click=${() => element.dispatchEvent(new CustomEvent("highlight", {detail: element.who}))}>${element.who}</em>!`,
+  (element: LitElementWithProps<Props>) => html`Hello
+  <em @click=${() =>
+    element.dispatchEvent(
+      new CustomEvent(
+        "highlight",
+        {detail: element.who}
+      )
+    )}>
+      ${element.who}
+    </em>!`,
   {
     styles: [
       css`:host { display:block; }`,
       css`em { color: red; }`
     ]
-    props: [
-      "who",
-      { type: { type: String } },
-      "lala",
-      { bla: { type: Boolean }, blub: { type: Object } },
+    defaults: [
+      "who" : "noone",
     ]
   }
 );
