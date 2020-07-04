@@ -1,4 +1,4 @@
-import { html, LitElement } from "lit-element";
+import { html, LitElement, css } from "lit-element";
 import { useState, useReducer } from "lit-element-state-decoupler";
 import { pureLit } from "pure-lit";
 import { LitElementWithProps } from "pure-lit/types";
@@ -12,12 +12,36 @@ const add = (state: string) => ({
 
 pureLit(
   "todo-list",
-  ({items, dispatchEvent}: LitElementWithProps<ListProps>) => html`<ul>
-    ${items.map(
-      (el) => html`<li @click=${() => dispatchEvent(new CustomEvent("remove", { detail: el }))}>${el}</li>`
+  (element: LitElementWithProps<ListProps>) => html`<ul>
+    ${element.items.map(
+      (el) => html`<li @click=${() => element.dispatchEvent(new CustomEvent("remove", { detail: el }))}>${el}</li>`
     )}
   </ul>`,
-  { defaults: { items: [] } }
+  {
+    styles: [
+      css`
+        ul {
+          padding: 0;
+          margin: 1rem 0;
+          list-style: none;
+          overflow: hidden;
+        }
+        li {
+          background-color:inherit;
+          padding: .5em;
+          border-bottom: solid 1px var(--colorFocus);
+          color: var(--colorContrast);
+          font-style: italic;
+          cursor: pointer;
+          transition: all 500ms;
+        }
+        li:hover {
+          background-color:var(--colorShow);
+        }
+      `,
+    ],
+    defaults: { items: [] },
+  }
 );
 
 pureLit("todo-add", (element) => {
@@ -42,20 +66,17 @@ pureLit("todo-add", (element) => {
   `;
 });
 
-pureLit(
-  "todo-app",
-  (element: LitElement) => {
-    const { getState, publish } = useState<string[]>(element, []);
-    return html`
-      <div>
-        <todo-add @add=${(e: CustomEvent<string>) => publish([...getState(), e.detail])}></todo-add>
-      </div>
-      <div>
-        <todo-list
-          .items=${getState()}
-          @remove=${(e: CustomEvent<string>) => publish([...getState().filter((el) => el !== e.detail)])}
-        ></todo-list>
-      </div>
-    `;
-  }
-);
+pureLit("todo-app", (element: LitElement) => {
+  const { getState, publish } = useState<string[]>(element, []);
+  return html`
+    <div>
+      <todo-add @add=${(e: CustomEvent<string>) => publish([...getState(), e.detail])}></todo-add>
+    </div>
+    <div>
+      <todo-list
+        .items=${getState()}
+        @remove=${(e: CustomEvent<string>) => publish([...getState().filter((el) => el !== e.detail)])}
+      ></todo-list>
+    </div>
+  `;
+});

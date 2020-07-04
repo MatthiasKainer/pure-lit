@@ -3,7 +3,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>lit-element-state-decoupler</title>
+    <title>pure-lit</title>
     <link id="favicon" rel="icon" type="image/x-icon" href="favicon.ico?v=2" />
     <script type="module" src="example.bundled.js"></script>
     <style>
@@ -66,7 +66,6 @@
         color: var(--colorContrast);
       }
       h2 {
-        margin-top: 3rem;
         color: var(--colorHighlight);
       }
       h3 {
@@ -82,12 +81,12 @@
         border-radius: 3px;
         background-color: #fff;
         margin-right: 5rem;
-        padding: 5rem;
+        padding: 2rem;
       }
       .container > div {
         flex-grow: 1;
         flex-basis: 0;
-        padding: 5rem;
+        padding: 2rem;
       }
       code {
         background-color: var(--colorShow);
@@ -101,11 +100,15 @@
   </head>
   <body>
     <h1>pure-lit</h1>
+    <p>A Todo list app written with pure-lit.</p>
+    <p>To put it on a page, all you need is a <code>&lt;todo-app>&lt;/todo-app></code> somewhere</p>
     <div class="container">
       <div>
+        <h2>Live Demo</h2>
         <todo-app></todo-app>
       </div>
       <div>
+        <h2>Code</h2>
         <script src="https://gist.github.com/MatthiasKainer/1a65b7dcd586171125a403b942d9b8e5.js"></script>
       </div>
     </div>

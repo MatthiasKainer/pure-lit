@@ -70,7 +70,7 @@ pureLit = <TProps>(
 type Props = { who: string, type: string, lala: boolean, bla: boolean, blub: { } }
 
 pureLit("hello-world",
-  ({dispatchEvent, who}: LitElementWithProps<Props>) => html`Hello <em @click=${() => dispatchEvent(new CustomEvent("highlight", {detail: who}))}>${who}</em>!`,
+  (element: LitElementWithProps<Props>) => html`Hello <em @click=${() => element.dispatchEvent(new CustomEvent("highlight", {detail: element.who}))}>${element.who}</em>!`,
   {
     styles: [
       css`:host { display:block; }`,
