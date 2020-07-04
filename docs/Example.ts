@@ -1,6 +1,6 @@
 import { html, LitElement } from "lit-element";
 import { useState, useReducer } from "lit-element-state-decoupler";
-import { pureLit } from "./pure-lit";
+import { pureLit } from "pure-lit";
 
 type ListProps = { items: string[] };
 

@@ -1,5 +1,9 @@
 # pure-lit
 
+[![Version](https://img.shields.io/npm/v/pure-lit?style=for-the-badge)](https://www.npmjs.com/package/pure-lit)
+[![Size](https://img.shields.io/bundlephobia/minzip/pure-lit?style=for-the-badge)](https://bundlephobia.com/result?p=pure-lit)
+[![vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/pure-lit?style=for-the-badge)](https://snyk.io/test/github/MatthiasKainer/pure-lit?targetFile=package.json)
+[![dependencies](https://img.shields.io/badge/dependencies-0-brightgreen?style=for-the-badge)](https://bundlephobia.com/result?p=pure-lit)
 ![Statements](badges/badge-statements.svg)
 ![Branch](badges/badge-branches.svg)
 ![Functions](badges/badge-functions.svg)
@@ -42,7 +46,7 @@ _browser_
 
 ## Advances usage
 
-Most powerful in combination with `lit-element-state-decoupler` and `lit-element-effect`. An example can be [found here](docs/Example.ts)
+Most powerful in combination with `pure-lit` and `lit-element-effect`. An example can be [found here](docs/Example.ts)
 
 ```ts
 
