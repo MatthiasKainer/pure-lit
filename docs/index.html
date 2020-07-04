@@ -100,11 +100,28 @@
   </head>
   <body>
     <h1>pure-lit</h1>
-    <p>A Todo list app written with pure-lit.</p>
-    <p>To put it on a page, all you need is a <code>&lt;todo-app>&lt;/todo-app></code> somewhere</p>
+    <p>A Todo list app written with <code>pure-lit</code>.</p>
+    <p>To get started with <code>pure-lit</code>, all you have to do is to execute the following command in your project:</p>
+    <pre>
+      npm install pure-lit
+    </pre>
+    <p>Compare the code you need for a standard Lit-Element with one where pure-lit was used to see the amount of code you can remove:</p>
+    <div class="container">
+      <div>
+        <h2>Before</h2>
+        <script src="https://gist.github.com/MatthiasKainer/ef075d9c0200964351b1c0a4392b9772.js"></script>
+      </div>
+      <div>
+        <h2>After</h2>
+        <script src="https://gist.github.com/MatthiasKainer/410795b0c437936124002afde32cdd52.js"></script>
+      </div>
+    </div>
+    <p>To make it more convinient, you might want to install <a href="https://github.com/MatthiasKainer/lit-element-state-decoupler" title="lit-element-state-decoupler" target="_blank">lit-element-state-decoupler</a> and <a target="_blank" href="https://github.com/MatthiasKainer/lit-element-effect" title="lit-element-effect">lit-element-effect</a> as well, which play very nicely with <code>pure-lit</code> and offer you the first hooks you will want.</code></p>
+
     <div class="container">
       <div>
         <h2>Live Demo</h2>
+        <p>To put it on a page, all you need is a <code>&lt;todo-app>&lt;/todo-app></code> somewhere</p>
         <todo-app></todo-app>
       </div>
       <div>

@@ -26,7 +26,7 @@ type Props = { who: string }
 
 pureLit("hello-world",
   ({who}: Props) => html`Hello ${who}!`,
-  { props: ["who"] }
+  { defaults: { who: "noone" } }
 );
 
 ```
