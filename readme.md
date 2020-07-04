@@ -13,7 +13,7 @@ A lightweight utility for state handling outside of the component for [lit-eleme
 
 ## Usage
 
-Register your lit-elements with in a single statement, and manage them in a functional way
+Register your lit-elements as a pure functions.
 
 
 ```ts
