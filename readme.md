@@ -19,9 +19,9 @@ A lightweight utility for state handling outside of the component for [lit-eleme
 
 Register your lit-elements as a pure functions.
 
+_index.ts_
 
 ```ts
-
 type Props = { who: string }
 
 pureLit("hello-world",
@@ -31,25 +31,21 @@ pureLit("hello-world",
 
 ```
 
-_index.ts_
+_index.html_
 
 ```html
 <hello-world who="everyone"></hello-world>
 ```
 
-_index.html_
-
+_browser_
 
 > Hello everyone!
-
-_browser_
 
 ## Advances usage
 
 Most powerful in combination with `pure-lit` and `lit-element-effect`. An example can be [found here](docs/Example.ts)
 
 ```ts
-
 pureLit("todo-app", (element: LitElement) => {
     const { getState, publish } = useState<string[]>(element, []);
     return html`
