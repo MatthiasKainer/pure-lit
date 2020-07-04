@@ -12,9 +12,9 @@ const add = (state: string) => ({
 
 pureLit(
   "todo-list",
-  (element: LitElementWithProps<ListProps>) => html`<ul>
-    ${element.items.map(
-      (el) => html`<li @click=${() => element.dispatchEvent(new CustomEvent("remove", { detail: el }))}>${el}</li>`
+  ({items, dispatchEvent}: LitElementWithProps<ListProps>) => html`<ul>
+    ${items.map(
+      (el) => html`<li @click=${() => dispatchEvent(new CustomEvent("remove", { detail: el }))}>${el}</li>`
     )}
   </ul>`,
   { defaults: { items: [] } }
