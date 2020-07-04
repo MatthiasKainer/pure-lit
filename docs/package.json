@@ -4,6 +4,7 @@
   "description": "Example Project for pure-lit",
   "main": "index.js",
   "scripts": {
+    "ln": "cp -r ../src/*.ts ./pure-lit",
     "build": "tsc",
     "build:watch": "tsc --watch",
     "serve": "es-dev-server --node-resolve --watch",
@@ -13,7 +14,7 @@
     "lit-element": "^2.3.1",
     "lit-element-effect": "0.0.5",
     "lit-element-state-decoupler": "0.3.2",
-    "pure-lit": "0.0.4"
+    "pure-lit": "0.0.7"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^13.0.0",

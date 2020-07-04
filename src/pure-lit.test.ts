@@ -1,5 +1,35 @@
-import { registered, pureLit, toPropertyDeclarationMap } from "./pure-lit";
+import { registered, pureLit, toPropertyDeclarationMap, toPropertyDeclaration, toProperties } from "./pure-lit";
 import { html } from "lit-element";
+
+describe("toProperties", () => {
+  it("returns empty if nothing", () => {
+    expect(toProperties()).toEqual({});
+  })
+
+  it("returns properties for default values", () => {
+    expect(toProperties({ defaults: { some: "value" } }))
+      .toEqual({some: {}})
+  })
+  it("returns properties for default declarations", () => {
+    expect(toProperties({ props: [{ some: { type: String } }] }))
+      .toEqual({some: { type: String }})
+  })
+})
+
+describe("toPropertyDeclaration", () => {
+  expect(toPropertyDeclaration()).toEqual({});
+  expect(
+    toPropertyDeclaration({
+      "something": {
+        "inner": "data"
+      },
+      blub: true
+    })
+  ).toEqual({
+      something: {},
+      blub: {}
+  });
+})
 
 describe("toPropertyDeclarationMap", () => {
   it("returns an empty property map on no data", () => {

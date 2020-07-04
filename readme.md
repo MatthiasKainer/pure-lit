@@ -50,6 +50,9 @@ pureLit = <TProps>(
   args?: {
     styles?: CSSResult | CSSResultArray
     props?: ([key: string]: PropertyDeclaration | string)[]
+  } | {
+    styles?: CSSResult | CSSResultArray
+    defaults?: {[key: string]: unknown}
   }
 )
 ```

@@ -1,6 +1,7 @@
 import { html, LitElement } from "lit-element";
 import { useState, useReducer } from "lit-element-state-decoupler";
 import { pureLit } from "pure-lit";
+import { LitElementWithProps } from "pure-lit/types";
 
 type ListProps = { items: string[] };
 
@@ -11,12 +12,12 @@ const add = (state: string) => ({
 
 pureLit(
   "todo-list",
-  (element: ListProps) => html`<ul>
+  (element: LitElementWithProps<ListProps>) => html`<ul>
     ${element.items.map(
-      (el) => html`<li @click=${() => dispatchEvent(new CustomEvent("remove", { detail: el }))}>${el}</li>`
+      (el) => html`<li @click=${() => element.dispatchEvent(new CustomEvent("remove", { detail: el }))}>${el}</li>`
     )}
   </ul>`,
-  { props: ["items"] }
+  { defaults: { items: [] } }
 );
 
 pureLit("todo-add", (element) => {
@@ -52,7 +53,7 @@ pureLit(
       <div>
         <todo-list
           .items=${getState()}
-          @remove=${(e: CustomEvent<string>) => publish([...getState().filter((el) => el === e.detail)])}
+          @remove=${(e: CustomEvent<string>) => publish([...getState().filter((el) => el !== e.detail)])}
         ></todo-list>
       </div>
     `;
