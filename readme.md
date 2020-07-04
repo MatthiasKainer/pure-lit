@@ -41,6 +41,50 @@ _browser_
 
 > Hello everyone!
 
+## Interface
+
+```ts
+pureLit = <TProps>(
+  name: string,
+  render: (element: LitElementWithProps<TProps>) => TemplateResult,
+  args?: {
+    styles?: CSSResult | CSSResultArray
+    props?: ([key: string]: PropertyDeclaration | string)[]
+  }
+)
+```
+
+| name | description |
+|--|--|
+| `name` | the name of the custom element |
+| `render` | a function that gets a `LitElement` with specified `Props`, and returns a `lit-html` TemplateResult |
+| `args.styles` | `lit-html` CSSResult or CSSResultArray to add styles to the custom component |
+| `args.props` | Property declarations for the element. Can be either a string (in which case the type is not defined) or a well defined PropertyDeclaration |
+
+## Example using everything
+
+```ts
+type Props = { who: string, type: string, lala: boolean, bla: boolean, blub: { } }
+
+pureLit("hello-world",
+  ({who}: Props) => html`Hello <em>${who}</em>!`,
+  {
+    styles: [
+      css`:host { display:block; }`,
+      css`em { color: red; }`
+    ]
+    props: [
+      "who",
+      { type: { type: String } },
+      "lala",
+      { bla: { type: Boolean }, blub: { type: Object } },
+    ]
+  }
+);
+  
+
+```
+
 ## Advances usage
 
 Most powerful in combination with `pure-lit` and `lit-element-effect`. An example can be [found here](docs/Example.ts)
