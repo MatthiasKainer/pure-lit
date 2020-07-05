@@ -11,13 +11,15 @@
 
 A lightweight utility for state handling outside of the component for [lit-elements](https://lit-element.polymer-project.org/)
 
+You can read an introduction here: [Write Less Code For Smaller Packages With `pure-lit`](https://matthias-kainer.de/blog/posts/write-less-code-with-pure-lit/)
+
 ## Install
 
 `npm install pure-lit`
 
 ## Usage
 
-Register your lit-elements as a pure functions.
+Register your lit-elements as pure functions.
 
 _index.ts_
 
