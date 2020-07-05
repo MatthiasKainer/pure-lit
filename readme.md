@@ -145,6 +145,10 @@ describe("pure-lit", () => {
   });
 ```
 
+Note that the tests in jest are not entirely sideeffect free: In between the tests jsdom will not clean up the registry for the custom component. So while in this test the component is indeed added and removed every time, it's created only the first time.
+
+This means you cannot change the behaviour of the component later (ie change the render method, or the defaults). To run it with a different scenario create a new test file.
+
 ## Advances usage
 
 Most powerful in combination with `pure-lit` and `lit-element-effect`. An example can be [found here](docs/Example.ts)
