@@ -13,6 +13,8 @@ A lightweight utility for state handling outside of the component for [lit-eleme
 
 You can read an introduction here: [Write Less Code For Smaller Packages With `pure-lit`](https://matthias-kainer.de/blog/posts/write-less-code-with-pure-lit/)
 
+Find a demo [here](https://matthiaskainer.github.io/pure-lit/)
+
 ## Install
 
 `npm install pure-lit`
