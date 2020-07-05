@@ -7,6 +7,7 @@ export type PurePropertyDeclaration = {
 export type PropDefinedPureArguments = {
     styles?: CSSResult | CSSResultArray
     props?: (PurePropertyDeclaration | string)[]
+    defaults?: DefaultObjectDefinition
 }
 
 export type DefaultObjectDefinition = {[key: string]: unknown}
@@ -23,5 +24,5 @@ export type LitElementWithProps<TProps> = LitElement & TProps
 export type RenderFunction<TProps> = (element: LitElementWithProps<TProps>) => TemplateResult
 
 export type RegisteredElements = {
-    [elementName: string] : HTMLElement
+    [elementName: string] : LitElementWithProps<any>
 }

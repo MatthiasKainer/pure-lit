@@ -42,7 +42,6 @@
   },
   "jest": {
     "preset": "ts-jest/presets/js-with-babel",
-    "testEnvironment": "jest-environment-jsdom-sixteen",
     "testPathIgnorePatterns": [
       "build",
       "docs"

@@ -67,6 +67,7 @@ pureLit = <TProps>(
 | `render` | a function that gets a `LitElement` with specified `Props`, and returns a `lit-html` TemplateResult |
 | `args.styles` | `lit-html` CSSResult or CSSResultArray to add styles to the custom component |
 | `args.props` | Property declarations for the element. Can be either a string (in which case the type is not defined) or a well defined PropertyDeclaration |
+| `args.defaults` | Set defaults for the properties |
 
 ## Example using everything
 
@@ -96,6 +97,52 @@ pureLit("hello-world",
 );
   
 
+```
+
+## Testing
+
+### Jest
+
+It's pretty simple to test it with jest. In your jest config you will need the following two lines
+
+```json
+  "preset": "ts-jest/presets/js-with-babel",
+  "transformIgnorePatterns": [
+    "node_modules/(?!(lit-element|lit-html)/)"
+  ],
+```
+
+which you will need for lit-element to be transpiled as well.
+
+The `pureLit` function returns the element, which you can then put on the page for tests.
+
+The test itself can be seen [in this project](src/pure-lit.tests.ts), but the gist looks like this:
+
+```ts
+describe("pure-lit", () => {
+  type Props = { who: string }
+  let component: LitElementWithProps<Props>
+  beforeEach(async () => {
+    component = pureLit("my-component",
+      (el) => html`<p>Hello ${el.who}!</p>`,
+      { defaults: { who: "noone" }});
+    document.body.appendChild(component)
+    await component.updateComplete
+  })
+
+  afterEach(() => {
+    document.body.removeChild(component)
+  })
+
+  it("renders the default correctly", async () => {
+    expect(component.shadowRoot?.innerHTML).toContain("Hello noone!")
+  });
+
+  it("renders updated props correctlty", async () => {
+    component.setAttribute("who", "John")
+    await component.updateComplete
+    expect(component.shadowRoot?.innerHTML).toContain("<p>Hello John!</p>");
+  });
 ```
 
 ## Advances usage

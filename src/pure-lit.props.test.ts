@@ -1,0 +1,32 @@
+import { pureLit } from "./pure-lit";
+import { html, css } from "lit-element";
+import { LitElementWithProps } from "./types";
+
+describe("pure-lit with prop specs", () => {
+  type Props = { who: string }
+  let component: LitElementWithProps<Props>
+  beforeEach(() => {
+    component = pureLit("my-component", 
+      (el : LitElementWithProps<Props>) => html`<p>Hello ${el.who}!</p>`,
+      { 
+        styles: [css`:host {}`],
+        props: [ "who" ]
+      });
+    document.body.appendChild(component)
+  })
+
+  afterEach(() => {
+    document.body.removeChild(component)
+  })
+
+
+  it("renders the empty defaults", async () => {
+    await component.updateComplete
+    expect(component.shadowRoot?.innerHTML).toContain("Hello !")
+  });
+  it("renders updated props correctlty", async () => {
+    component.setAttribute("who", "John")
+    await component.updateComplete
+    expect(component.shadowRoot?.innerHTML).toContain("<p>Hello John!</p>");
+  });
+})
