@@ -119,35 +119,39 @@ The `pureLit` function returns the element, which you can then put on the page f
 The test itself can be seen [in this project](src/pure-lit.tests.ts), but the gist looks like this:
 
 ```ts
-describe("pure-lit", () => {
-  type Props = { who: string }
-  let component: LitElementWithProps<Props>
-  beforeEach(async () => {
-    component = pureLit("my-component",
+// MyComponent.ts
+export default pureLit("my-component",
       (el) => html`<p>Hello ${el.who}!</p>`,
       { defaults: { who: "noone" }});
-    document.body.appendChild(component)
-    await component.updateComplete
+
+// myComponent.test.ts
+import MyComponent from "./MyComponent.ts"
+
+describe("pure-lit", () => {
+  type Props = { who: string }
+  beforeEach(async () => {
+    document.body.appendChild(MyComponent)
+    await MyComponent.updateComplete
   })
 
   afterEach(() => {
-    document.body.removeChild(component)
+    document.body.removeChild(MyComponent)
   })
 
   it("renders the default correctly", async () => {
-    expect(component.shadowRoot?.innerHTML).toContain("Hello noone!")
+    expect(MyComponent.shadowRoot?.innerHTML).toContain("Hello noone!")
   });
 
   it("renders updated props correctlty", async () => {
-    component.setAttribute("who", "John")
-    await component.updateComplete
-    expect(component.shadowRoot?.innerHTML).toContain("<p>Hello John!</p>");
+    MyComponent.setAttribute("who", "John")
+    await MyComponent.updateComplete
+    expect(MyComponent.shadowRoot?.innerHTML).toContain("<p>Hello John!</p>");
   });
 ```
 
-Note that the tests in jest are not entirely sideeffect free: In between the tests jsdom will not clean up the registry for the custom component. So while in this test the component is indeed added and removed every time, it's created only the first time.
+Note that the tests in jest are not entirely side-effect free: In between the tests jsdom will not clean up the registry for the custom component. So if you create a component in the test, it's created only the first time.
 
-This means you cannot change the behaviour of the component later (ie change the render method, or the defaults). To run it with a different scenario create a new test file.
+This means you cannot change the behavior of the component later (ie change the render method, or the defaults). To run it with a different scenario create a new test file.
 
 ## Advances usage
 
