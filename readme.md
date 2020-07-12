@@ -108,11 +108,28 @@ It's pretty simple to test it with jest. In your jest config you will need the f
 ```json
   "preset": "ts-jest/presets/js-with-babel",
   "transformIgnorePatterns": [
-    "node_modules/(?!(lit-element|lit-html)/)"
+    "node_modules/(?!(lit-element|lit-html|pure-lit)/)"
   ],
 ```
 
-which you will need for lit-element to be transpiled as well.
+which you will need for lit-element and pure-lit to be transpiled as well.
+
+Then you need (if you haven't already) a `babel.conf.js` with at least the following content
+
+```js
+module.exports = {
+  presets: [
+    [
+      "@babel/preset-env",
+      {
+        targets: {
+          node: "current",
+        },
+      },
+    ],
+  ],
+};
+```
 
 The `pureLit` function returns the element, which you can then put on the page for tests.
 
