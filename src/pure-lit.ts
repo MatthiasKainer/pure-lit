@@ -24,8 +24,8 @@ export const pureLit = <TProps>(
       /* istanbul ignore next */
       return args?.styles;
     }
-    connectedCallback() {
-      super.connectedCallback();
+    constructor() {
+      super();
       if (isDefault(args)) {
         Object.entries(args.defaults!).forEach(([key, value]) => {
           (this as any)[key] = value
