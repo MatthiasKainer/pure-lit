@@ -10,7 +10,7 @@ describe("pure-lit with prop specs", () => {
       (el : LitElementWithProps<Props>) => html`<p>Hello ${el.who}!</p>`,
       { 
         styles: [css`:host {}`],
-        props: [ "who" ]
+        props: [ {"who": {type: String}} ]
       });
     document.body.appendChild(component)
   })

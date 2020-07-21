@@ -53,7 +53,7 @@ pureLit = <TProps>(
   render: (element: LitElementWithProps<TProps>) => TemplateResult,
   args?: {
     styles?: CSSResult | CSSResultArray
-    props?: ([key: string]: PropertyDeclaration | string)[]
+    props?: [key: string]: PropertyDeclaration[]
   } | {
     styles?: CSSResult | CSSResultArray
     defaults?: {[key: string]: unknown}
@@ -66,8 +66,8 @@ pureLit = <TProps>(
 | `name` | the name of the custom element |
 | `render` | a function that gets a `LitElement` with specified `Props`, and returns a `lit-html` TemplateResult |
 | `args.styles` | `lit-html` CSSResult or CSSResultArray to add styles to the custom component |
-| `args.props` | Property declarations for the element. Can be either a string (in which case the type is not defined) or a well defined PropertyDeclaration |
-| `args.defaults` | Set defaults for the properties |
+| `args.props` | Property declarations for the element. A well defined PropertyDeclaration |
+| `args.defaults` | Set defaults for the properties. If set and no props are set, the PropertyDeclaration will be created for you |
 
 ## Example using everything
 

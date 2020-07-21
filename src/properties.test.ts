@@ -1,4 +1,38 @@
 import { toProperties, toPropertyDeclaration, toPropertyDeclarationMap } from "./properties";
+import { getType, toTypeDeclaration } from "./properties"
+
+describe("typer", () => {
+    it("should map a boolean value correctly", () => {
+        expect(getType(true))
+            .toEqual({ type: Boolean })
+    })
+    it("should map an object value correctly", () => {
+        expect(getType({ value: {} }))
+            .toEqual({ type: Object })
+    })
+    it("should map a array value correctly", () => {
+        expect(getType([]))
+            .toEqual({ type: Array })
+    })
+    it("should map a string value correctly", () => {
+        expect(getType("true"))
+            .toEqual({ })
+    })
+
+    it("should map a set of default properties correctly", () => {
+        expect(toTypeDeclaration({ 
+            bool: true,
+            obj : {},
+            arr: [],
+            else: "string"
+        })).toEqual({
+            bool: {type: Boolean},
+            obj: {type: Object},
+            arr: {type: Array},
+            else: { }
+        })
+    })
+})
 
 describe("toProperties", () => {
     it("returns empty if nothing", () => {
@@ -42,15 +76,11 @@ describe("toProperties", () => {
     it("should map propertymaps correctly", () => {
       expect(
         toPropertyDeclarationMap([
-          "something",
           { type: { type: String } },
-          "lala",
           { bla: { type: Boolean }, blub: { type: Object } },
         ])
       ).toEqual({
-          something: {},
           type: { type: String },
-          lala: {},
           bla: { type: Boolean },
           blub: { type: Object }
       });

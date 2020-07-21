@@ -5,23 +5,27 @@ import {
   DefaultDefinedPureArguments,
   PropDefinedPureArguments,
 } from "./types";
-import { PropertyDeclarations } from "lit-element";
-import { objectToPurePropertyDeclaration } from "./typer";
+import { PropertyDeclaration, PropertyDeclarations } from "lit-element";
 
-const isString = (v: string | PurePropertyDeclaration): v is string => {
-  return typeof v === "string";
-};
+export function getType(value: unknown) : PropertyDeclaration {
+  if (typeof value === "boolean") return {type: Boolean}
+  if (Array.isArray(value)) return {type: Array}
+  if (typeof value === "object") return {type: Object}
+  return {}
+}
+
+export const toTypeDeclaration = (object: {[key: string]: unknown}) =>
+  Object.entries(object).reduce((result, [key, value]) => {
+      result[key] = getType(value)
+      return result;
+  }, {} as PurePropertyDeclaration) as PurePropertyDeclaration
 
 export const toPropertyDeclaration = (defaults?: DefaultObjectDefinition) =>
-  objectToPurePropertyDeclaration(defaults || {});
+  toTypeDeclaration(defaults || {});
 
 export const toPropertyDeclarationMap = (props?: (PurePropertyDeclaration | string)[]) =>
   (props || []).reduce((declaration: PurePropertyDeclaration, prop) => {
-    if (isString(prop)) {
-      declaration[prop] = {};
-    } else {
-      Object.entries(prop).forEach(([key, value]) => (declaration[key] = value));
-    }
+    Object.entries(prop).forEach(([key, value]) => (declaration[key] = value));
     return declaration;
   }, {} as PropertyDeclarations);
 
