@@ -6,13 +6,14 @@ import {
   PropDefinedPureArguments,
 } from "./types";
 import { PropertyDeclarations } from "lit-element";
+import { objectToPurePropertyDeclaration } from "./typer";
 
 const isString = (v: string | PurePropertyDeclaration): v is string => {
   return typeof v === "string";
 };
 
 export const toPropertyDeclaration = (defaults?: DefaultObjectDefinition) =>
-  toPropertyDeclarationMap(Object.keys(defaults || {}));
+  objectToPurePropertyDeclaration(defaults || {});
 
 export const toPropertyDeclarationMap = (props?: (PurePropertyDeclaration | string)[]) =>
   (props || []).reduce((declaration: PurePropertyDeclaration, prop) => {

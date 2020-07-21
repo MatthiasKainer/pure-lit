@@ -6,8 +6,8 @@ describe("toProperties", () => {
     })
   
     it("returns properties for default values", () => {
-      expect(toProperties({ defaults: { some: "value" } }))
-        .toEqual({some: {}})
+      expect(toProperties({ defaults: { some: "value", bool: true } }))
+        .toEqual({some: {}, bool: {type: Boolean}})
     })
     it("returns properties for default declarations", () => {
       expect(toProperties({ props: [{ some: { type: String } }] }))
@@ -25,8 +25,12 @@ describe("toProperties", () => {
         blub: true
       })
     ).toEqual({
-        something: {},
-        blub: {}
+        something: {
+          type: Object
+        },
+        blub: {
+          type: Boolean
+        }
     });
   })
   
