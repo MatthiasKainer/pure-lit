@@ -12,7 +12,7 @@ export const registered: RegisteredElements = {};
 export const pureLit = <TProps>(
   name: string,
   render: RenderFunction<TProps>,
-  args?: PureArguments
+  args?: PureArguments<TProps>
 ): LitElementWithProps<TProps> => {
   if (registered[name]) return registered[name];
 
@@ -27,7 +27,7 @@ export const pureLit = <TProps>(
     constructor() {
       super();
       if (isDefault(args)) {
-        Object.entries(args.defaults!).forEach(([key, value]) => {
+        Object.entries(args!.defaults!).forEach(([key, value]) => {
           (this as any)[key] = value
         })
       }

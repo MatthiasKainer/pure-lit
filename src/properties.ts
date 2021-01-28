@@ -29,10 +29,10 @@ export const toPropertyDeclarationMap = (props?: (PurePropertyDeclaration | stri
     return declaration;
   }, {} as PropertyDeclarations);
 
-export const isDefault = (args?: PureArguments): args is DefaultDefinedPureArguments =>
-  args !== undefined && (args as DefaultDefinedPureArguments).defaults !== undefined;
-export const hasProps = (args?: PureArguments): args is PropDefinedPureArguments =>
-  args !== undefined && (args as PropDefinedPureArguments).props !== undefined;
+export const isDefault = <T>(args?: PureArguments<T>): args is DefaultDefinedPureArguments<T> =>
+  args !== undefined && <T>(args as DefaultDefinedPureArguments<T>).defaults !== undefined;
+export const hasProps = <T>(args?: PureArguments<T>): args is PropDefinedPureArguments<T> =>
+  args !== undefined && (args as PropDefinedPureArguments<T>).props !== undefined;
 
-export const toProperties = (args?: PureArguments) =>
+export const toProperties = <T>(args?: PureArguments<T>) =>
   hasProps(args) ? toPropertyDeclarationMap(args.props) : toPropertyDeclaration(args?.defaults);

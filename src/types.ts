@@ -4,20 +4,20 @@ export type PurePropertyDeclaration = {
     [key: string]: PropertyDeclaration;
 }
 
-export type PropDefinedPureArguments = {
+export type PropDefinedPureArguments<TProps> = {
     styles?: CSSResult | CSSResultArray
     props?: (PurePropertyDeclaration | string)[]
-    defaults?: DefaultObjectDefinition
+    defaults?: TProps & DefaultObjectDefinition
 }
 
 export type DefaultObjectDefinition = {[key: string]: unknown}
 
-export type DefaultDefinedPureArguments = {
+export type DefaultDefinedPureArguments<TProps> = {
     styles?: CSSResult | CSSResultArray
-    defaults?: DefaultObjectDefinition
+    defaults?: TProps & DefaultObjectDefinition
 }
 
-export type PureArguments = PropDefinedPureArguments | DefaultDefinedPureArguments
+export type PureArguments<TProps> = PropDefinedPureArguments<TProps> | DefaultDefinedPureArguments<TProps>
 
 export type LitElementWithProps<TProps> = LitElement & TProps
 
