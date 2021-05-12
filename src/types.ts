@@ -1,11 +1,11 @@
-import { CSSResult, CSSResultArray, TemplateResult, LitElement, PropertyDeclaration } from "lit";
+import { CSSResult, CSSResultArray, TemplateResult, LitElement, PropertyDeclaration, CSSResultGroup } from "lit";
 
 export type PurePropertyDeclaration = {
     [key: string]: PropertyDeclaration;
 }
 
 export type PropDefinedPureArguments<TProps> = {
-    styles?: CSSResult | CSSResultArray
+    styles?: CSSResultGroup
     props?: (PurePropertyDeclaration | string)[]
     defaults?: TProps & DefaultObjectDefinition
 }
