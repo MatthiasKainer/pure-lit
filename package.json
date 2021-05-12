@@ -80,7 +80,10 @@
         "lines": 100,
         "statements": 100
       }
-    }
+    },
+    "coveragePathIgnorePatterns": [
+      "index.ts"
+    ]
   },
   "author": "Matthias Kainer",
   "license": "ISC"
