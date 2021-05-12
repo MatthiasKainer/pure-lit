@@ -1,5 +1,5 @@
 import { pureLit, LitElementWithProps } from ".";
-import { html, css } from "lit-element";
+import { html, css } from "lit";
 import {screen} from 'testing-library__dom';
 
 type Props = { val: boolean, string: string };

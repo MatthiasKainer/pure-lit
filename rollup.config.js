@@ -30,7 +30,7 @@ const plugins = [
         showBrotliSize: true,
     }),
 ];
-const external = ["lit-element"]
+const external = ["lit"]
 
 const get = (input, pkg) => {
     const mainBundle = {

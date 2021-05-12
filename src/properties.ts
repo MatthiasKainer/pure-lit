@@ -5,7 +5,7 @@ import {
   DefaultDefinedPureArguments,
   PropDefinedPureArguments,
 } from "./types";
-import { PropertyDeclaration, PropertyDeclarations } from "lit-element";
+import { PropertyDeclaration, PropertyDeclarations } from "lit";
 
 export function getType(value: unknown) : PropertyDeclaration {
   if (typeof value === "boolean") return {type: Boolean}

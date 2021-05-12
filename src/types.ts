@@ -1,4 +1,4 @@
-import { CSSResult, CSSResultArray, TemplateResult, LitElement, PropertyDeclaration } from "lit-element";
+import { CSSResult, CSSResultArray, TemplateResult, LitElement, PropertyDeclaration } from "lit";
 
 export type PurePropertyDeclaration = {
     [key: string]: PropertyDeclaration;

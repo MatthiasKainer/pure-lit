@@ -1,5 +1,5 @@
 import { registered, pureLit } from "./pure-lit";
-import { html } from "lit-element";
+import { html } from "lit";
 import { LitElementWithProps } from "./types";
 
 
@@ -24,12 +24,12 @@ describe("pure-lit", () => {
   });  
   
   it("renders the default correctly", async () => {
-    expect(component.shadowRoot?.innerHTML).toContain("Hello noone!")
+    expect(component.shadowRoot?.textContent).toContain("Hello noone!")
   });
   it("renders updated props correctlty", async () => {
     component.setAttribute("who", "John")
     await component.updateComplete
-    expect(component.shadowRoot?.innerHTML).toContain("<p>Hello John!</p>");
+    expect(component.shadowRoot?.textContent).toContain("Hello John!");
   });
 
   it("does not duplicate the component if it already exists", () => {

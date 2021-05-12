@@ -1,5 +1,5 @@
 import { pureLit } from "./pure-lit";
-import { html, css } from "lit-element";
+import { html, css } from "lit";
 import { LitElementWithProps } from "./types";
 
 describe("pure-lit with prop specs", () => {
@@ -22,11 +22,11 @@ describe("pure-lit with prop specs", () => {
 
   it("renders the empty defaults", async () => {
     await component.updateComplete
-    expect(component.shadowRoot?.innerHTML).toContain("Hello !")
+    expect(component.shadowRoot?.textContent).toContain("Hello !")
   });
   it("renders updated props correctlty", async () => {
     component.setAttribute("who", "John")
     await component.updateComplete
-    expect(component.shadowRoot?.innerHTML).toContain("<p>Hello John!</p>");
+    expect(component.shadowRoot?.textContent).toContain("Hello John!");
   });
 })
