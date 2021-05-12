@@ -67,7 +67,7 @@ const get = (input, pkg) => {
     };
     return [mainBundle, cjsBundle, systemBundle]
 }
+
 export default [
-    ...get(input, pkg), 
-    ...get(`./src/full.ts`, pkg.full)
+    ...get(input, pkg)
 ];

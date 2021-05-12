@@ -5,11 +5,6 @@
   "main": "./lib/index.js",
   "module": "./lib/index.module.js",
   "system": "./lib/index.system.js",
-  "full": {
-    "main": "./lib/full.js",
-    "module": "./lib/full.module.js",
-    "system": "./lib/full.system.js"
-  },
   "type": "module",
   "keywords": [
     "lit-element",
