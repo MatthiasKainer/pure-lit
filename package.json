@@ -6,9 +6,9 @@
   "module": "./dist/index.module.js",
   "system": "./dist/index.system.js",
   "full": {
-    "main": "./dist/full/index.js",
-    "module": "./dist/full/index.module.js",
-    "system": "./dist/full/index.system.js"
+    "main": "./full/index.js",
+    "module": "./full/index.module.js",
+    "system": "./full/index.system.js"
   },
   "type": "module",
   "keywords": [
@@ -39,8 +39,6 @@
     "jest": "^26.6.3",
     "jest-environment-jsdom-sixteen": "^1.0.3",
     "lit-element": "^2.5.1",
-    "lit-element-effect": "^0.0.8",
-    "lit-element-state-decoupler": "^0.3.7",
     "rollup": "^2.47.0",
     "rollup-plugin-filesize": "^9.1.1",
     "rollup-plugin-minify-html-literals": "^1.2.6",
@@ -55,6 +53,10 @@
   },
   "peerDependencies": {
     "lit-element": "^2.3.1"
+  },
+  "dependencies": {
+    "lit-element-effect": "^0.0.8",
+    "lit-element-state-decoupler": "^0.3.7"
   },
   "prettier": {
     "trailingComma": "es5",
