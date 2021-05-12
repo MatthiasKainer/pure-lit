@@ -23,6 +23,20 @@ Find a demo [here](https://matthiaskainer.github.io/pure-lit/)
 
 Register your lit-elements as pure functions.
 
+Import via 
+
+```ts
+import {pureLit} from "pureLit"
+// if you want hooks from lit-element-state-decoupler & lit-element-effect
+import {
+  pureLit, 
+  useState, 
+  useReducer, 
+  useEffect, 
+  useOnce
+} from "pure-lit/lib/full"
+```
+
 _index.ts_
 
 ```ts

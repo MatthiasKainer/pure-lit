@@ -2,13 +2,13 @@
   "name": "pure-lit",
   "version": "0.4.3",
   "description": "lit elements as functions",
-  "main": "./dist/index.js",
-  "module": "./dist/index.module.js",
-  "system": "./dist/index.system.js",
+  "main": "./lib/index.js",
+  "module": "./lib/index.module.js",
+  "system": "./lib/index.system.js",
   "full": {
-    "main": "./full/index.js",
-    "module": "./full/index.module.js",
-    "system": "./full/index.system.js"
+    "main": "./lib/full.js",
+    "module": "./lib/full.module.js",
+    "system": "./lib/full.system.js"
   },
   "type": "module",
   "keywords": [

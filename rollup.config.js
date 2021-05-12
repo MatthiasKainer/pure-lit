@@ -69,5 +69,5 @@ const get = (input, pkg) => {
 }
 export default [
     ...get(input, pkg), 
-    ...get(`./src/full/index.ts`, pkg.full)
+    ...get(`./src/full.ts`, pkg.full)
 ];
