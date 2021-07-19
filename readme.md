@@ -206,3 +206,74 @@ pureLit("todo-app", (element: LitElement) => {
 );
 
 ```
+
+## React and attributes
+
+As long as you use the property syntax from lit-element, everything will work seamlessly. It will be more difficult once you try to use your component in a framework like react. There are two things to consider:
+
+a) React does not work well with `camelCase` attribute names (see also https://reactjs.org/docs/dom-elements.html#all-supported-html-attributes).
+b) React does not work well with your custom events.
+
+To workaround this issue pure-lit tries to be friendly, but there is something for you to be left.
+
+Let's take a look at an example:
+
+```js
+pureLit("hello-world",
+  (el) => {
+    el.dispatchEvent(new CustomEvent("knockknock", { detail : `Who's there? - ${el.whoIsTher} - Not funny` }))
+    return html`<p>Hello ${el.whoIsThere}!</p>`
+  },
+  { defaults: { whoIsThere: "noone" }});
+```
+
+Using this via lit-html looks like this:
+
+```js
+const who = "me";
+return html`<hello-world .whoIsThere=${who} @knockknock=${e => console.log(e.detail)}></hello-world>`
+```
+
+First, pure-lit changes `camelCase` attribute names to `dashed`, thus in jsx the component will look like this:
+
+```jsx
+const who = "me";
+return <hello-world who-is-there={me}></hello-world>
+```
+
+Accessing the event is slightly more difficult.
+
+```jsx
+function HelloWorld({ whoIsThere, knockknock }) {
+  // create a ref for the html element
+  const helloWorldRef = useRef<HTMLElement>()
+
+  // The event listener that handles the submitted event
+  function eventListener(e) {
+    knockknock(e.detail)
+  }
+
+  // add the event listener to the ref in an effect
+  useEffect(() => {
+    const { current } = helloWorldRef
+    current.addEventListener('knockknock', eventListener)
+
+    // remove it when the element is unmounted
+    return () => current.removeEventListener('knockknock', eventListener)
+  }, [])
+
+  return (
+    <hello-world
+      // create the reference for the ref
+      ref={helloWorldRef}
+      who-is-there={me}>
+    </hello-world>
+  )
+}
+```
+
+Now we can use the Wrapped Component like so:
+
+```jsx
+<HelloWorld whoIsThere="me" knockknock={console.log}>
+```
