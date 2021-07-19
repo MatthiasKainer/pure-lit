@@ -1,6 +1,6 @@
 {
   "name": "pure-lit",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "lit elements as functions",
   "main": "./lib/index.js",
   "module": "./lib/index.module.js",
