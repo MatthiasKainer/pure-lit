@@ -43,6 +43,22 @@ describe("toProperties", () => {
       expect(toProperties({ defaults: { some: "value", bool: true } }))
         .toEqual({some: {}, bool: {type: Boolean}})
     })
+    it("returns multiple generated properties for camelCases to support react https://reactjs.org/docs/dom-elements.html#all-supported-html-attributes `You may also use custom attributes as long as they’re fully lowercase.`", () => {
+      expect(toProperties({ props: [{ someCamelCase: { type: String }, bool: {type: Boolean} }] }))
+        .toEqual({
+          someCamelCase: { type: String }, 
+          somecamelcase: { type: String }, 
+          "some-camel-case": { type: String }, 
+          bool: {type: Boolean}
+        })
+        expect(toProperties({ defaults: { someCamelCase: "value", bool: true } }))
+        .toEqual({
+          someCamelCase: {}, 
+          somecamelcase: {}, 
+          "some-camel-case": {}, 
+          bool: {type: Boolean}
+        })
+    })
     it("returns properties for default declarations", () => {
       expect(toProperties({ props: [{ some: { type: String } }] }))
         .toEqual({some: { type: String }})

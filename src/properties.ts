@@ -7,6 +7,16 @@ import {
 } from "./types";
 import { PropertyDeclaration, PropertyDeclarations } from "lit";
 
+function toSafeDeclaration(declaration: PurePropertyDeclaration, [key, value]: [string, any]) {
+  if (key.toLowerCase() !== key) {
+    declaration[key.toLowerCase()] = value;
+    declaration[key.replace(/[A-Z]/g, '-$&').toLowerCase()] = value;
+  }
+
+  declaration[key] = value;
+  return declaration;
+}
+
 export function getType(value: unknown) : PropertyDeclaration {
   if (typeof value === "boolean") return {type: Boolean}
   if (Array.isArray(value)) return {type: Array}
@@ -16,8 +26,7 @@ export function getType(value: unknown) : PropertyDeclaration {
 
 export const toTypeDeclaration = (object: {[key: string]: unknown}) =>
   Object.entries(object).reduce((result, [key, value]) => {
-      result[key] = getType(value)
-      return result;
+      return toSafeDeclaration(result, [key, getType(value)])
   }, {} as PurePropertyDeclaration) as PurePropertyDeclaration
 
 export const toPropertyDeclaration = (defaults?: DefaultObjectDefinition) =>
@@ -25,7 +34,7 @@ export const toPropertyDeclaration = (defaults?: DefaultObjectDefinition) =>
 
 export const toPropertyDeclarationMap = (props?: (PurePropertyDeclaration | string)[]) =>
   (props || []).reduce((declaration: PurePropertyDeclaration, prop) => {
-    Object.entries(prop).forEach(([key, value]) => (declaration[key] = value));
+    Object.entries(prop).forEach((entry) => declaration = toSafeDeclaration(declaration, entry));
     return declaration;
   }, {} as PropertyDeclarations);
 
