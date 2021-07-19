@@ -9,11 +9,11 @@ import { PropertyDeclaration, PropertyDeclarations } from "lit";
 
 function toSafeDeclaration(declaration: PurePropertyDeclaration, [key, value]: [string, any]) {
   if (key.toLowerCase() !== key) {
-    declaration[key.toLowerCase()] = value;
-    declaration[key.replace(/[A-Z]/g, '-$&').toLowerCase()] = value;
+    declaration[key] = {...value, attribute: key.replace(/[A-Z]/g, '-$&').toLowerCase()};
+  } else {
+    declaration[key] = value;
   }
 
-  declaration[key] = value;
   return declaration;
 }
 
