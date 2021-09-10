@@ -44,15 +44,14 @@
     "rollup-plugin-url-resolve": "^0.1.1",
     "testing-library__dom": "^7.20.1-beta.1",
     "ts-jest": "^26.5.6",
-    "ts-lit-plugin": "^1.2.1",
     "typescript": "^3.9.9"
   },
   "peerDependencies": {
     "lit": "^2.0.0-rc.2"
   },
   "dependencies": {
-    "lit-element-effect": "^0.0.8",
-    "lit-element-state-decoupler": "^0.3.7"
+    "lit-element-effect": "^1.0.0",
+    "lit-element-state-decoupler": "^1.0.1"
   },
   "prettier": {
     "trailingComma": "es5",
