@@ -51,7 +51,7 @@
   },
   "dependencies": {
     "lit-element-effect": "^1.0.0",
-    "lit-element-state-decoupler": "^1.0.1"
+    "lit-element-state-decoupler": "^1.1.1"
   },
   "prettier": {
     "trailingComma": "es5",

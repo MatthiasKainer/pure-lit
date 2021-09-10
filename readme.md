@@ -23,18 +23,19 @@ Find a demo [here](https://matthiaskainer.github.io/pure-lit/)
 
 Register your lit-elements as pure functions.
 
-Import via 
+Import via
 
 ```ts
 import {pureLit} from "pureLit"
-// if you want hooks from lit-element-state-decoupler & lit-element-effect
+
+// also contains the hooks from lit-element-state-decoupler & lit-element-effect
 import {
   pureLit, 
   useState, 
   useReducer, 
   useEffect, 
   useOnce
-} from "pure-lit/lib/full"
+} from "pure-lit"
 ```
 
 _index.ts_
@@ -91,11 +92,7 @@ type Props = { who: string }
 pureLit("hello-world",
   (element: LitElementWithProps<Props>) => html`Hello
   <em @click=${() =>
-    element.dispatchEvent(
-      new CustomEvent(
-        "highlight",
-        {detail: element.who}
-      )
+    dispatch(element, "highlight", element.who)
     )}>
       ${element.who}
     </em>!`,
@@ -293,7 +290,7 @@ Let's take a look at an example:
 ```js
 pureLit("hello-world",
   (el) => {
-    el.dispatchEvent(new CustomEvent("knockknock", { detail : `Who's there? - ${el.whoIsTher} - Not funny` }))
+    dispatch(el, "knockknock", `Who's there? - ${el.whoIsTher} - Not funny`))
     return html`<p>Hello ${el.whoIsThere}!</p>`
   },
   { defaults: { whoIsThere: "noone" }});
