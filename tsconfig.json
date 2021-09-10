@@ -16,12 +16,6 @@
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
-    "plugins": [
-      {
-        "name": "ts-lit-plugin",
-        "strict": true
-      }
-    ]
   },
   "include": ["**/*.ts"],
   "exclude": ["docs/", "dist/"]

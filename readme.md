@@ -190,15 +190,15 @@ Most powerful in combination with `pure-lit` and `lit-element-effect`. An exampl
 
 ```ts
 pureLit("todo-app", (element: LitElement) => {
-    const { getState, publish } = useState<string[]>(element, []);
+    const { get, set } = useState<string[]>(element, []);
     return html`
       <div>
-        <todo-add @add=${(e: CustomEvent<string>) => publish([...getState(), e.detail])}></todo-add>
+        <todo-add @add=${(e: CustomEvent<string>) => set([...get(), e.detail])}></todo-add>
       </div>
       <div>
         <todo-list
-          .items=${getState()}
-          @remove=${(e: CustomEvent<string>) => publish([...getState().filter((el) => el === e.detail)])}
+          .items=${get()}
+          @remove=${(e: CustomEvent<string>) => set([...get().filter((el) => el === e.detail)])}
         ></todo-list>
       </div>
     `;
