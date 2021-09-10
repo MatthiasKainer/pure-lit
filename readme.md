@@ -186,6 +186,78 @@ This means you cannot change the behavior of the component later (ie change the 
 
 ## Advances usage
 
+If you want to dispatch a custom event, you don't have to write the `CustomEvent` code, you can either use a reducer or just use the `dispatch` method provided like so:
+
+### Reducer
+
+```ts
+const todo = (state: string) => ({
+  update: (payload: string) => payload,
+  added: () => state,
+});
+
+pureLit("todo-add", (element: LitElement) => {
+    const { set, get } = useReducer(element, todo, "", {
+      // this is the line that dispatches a custom event for you
+      dispatchEvent: true,
+    });
+    const onComplete = () => get().length > 0 && (set("added"), set("update", ""));
+    const onUpdate = ({ value }: { value: string }) => set("update", value);
+    return html`
+      <div>
+        <input
+          type="text"
+          name="item"
+          .value="${get()}"
+          @input="${(e: InputEvent) => onUpdate(e.target as HTMLInputElement)}"
+          @keypress="${(e: KeyboardEvent) => e.key === "Enter" && onComplete()}"
+          placeholder="insert new item"
+        />
+        <button @click=${() => onComplete()}>
+          Add Item
+        </button>
+      </div>
+    `;
+  }
+);
+
+```
+
+### Dispatch
+
+```ts
+
+pureLit("todo-add", (element: LitElement) => {
+    const todo = useState(element, "");
+
+    const onComplete = () => {
+      if (todo.get().length > 0) {
+        // dipatch a custom event "added"
+        dispatch(element, "added", todo.get());
+        todo.set("");
+      }    
+    };
+    const onUpdate = ({ value }: { value: string }) => todo.set(value);
+    return html`
+      <div>
+        <input
+          type="text"
+          name="item"
+          .value="${todo.get()}"
+          @input="${(e: InputEvent) => onUpdate(e.target as HTMLInputElement)}"
+          @keypress="${(e: KeyboardEvent) => e.key === "Enter" && onComplete()}"
+          placeholder="insert new item"
+        />
+        <button @click=${() => onComplete()}>
+          Add Item
+        </button>
+      </div>
+    `;
+  }
+);
+
+```
+
 Most powerful in combination with `pure-lit` and `lit-element-effect`. An example can be [found here](docs/Example.ts)
 
 ```ts
