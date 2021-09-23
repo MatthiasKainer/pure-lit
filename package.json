@@ -50,8 +50,8 @@
     "lit": "^2.0.0-rc.2"
   },
   "dependencies": {
-    "lit-element-effect": "^1.0.1",
-    "lit-element-state-decoupler": "^1.1.2"
+    "lit-element-effect": "^1.0.2",
+    "lit-element-state-decoupler": "^1.1.3"
   },
   "prettier": {
     "trailingComma": "es5",
