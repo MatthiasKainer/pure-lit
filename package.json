@@ -24,16 +24,16 @@
   },
   "devDependencies": {
     "@babel/preset-env": "^7.15.6",
-    "@rollup/plugin-commonjs": "^19.0.0",
+    "@rollup/plugin-commonjs": "^20.0.0",
     "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-replace": "^2.4.2",
-    "@testing-library/dom": "^7.31.0",
-    "@testing-library/user-event": "^12.8.3",
-    "@types/jest": "^25.2.3",
-    "@typescript-eslint/eslint-plugin": "^2.27.0",
-    "@typescript-eslint/parser": "^2.27.0",
-    "jest": "^26.6.3",
-    "jest-environment-jsdom-sixteen": "^1.0.3",
+    "@rollup/plugin-replace": "^3.0.0",
+    "@testing-library/dom": "^8.6.0",
+    "@testing-library/user-event": "^13.2.1",
+    "@types/jest": "^27.0.2",
+    "@typescript-eslint/eslint-plugin": "^4.31.2",
+    "@typescript-eslint/parser": "^4.31.2",
+    "jest": "^27.2.1",
+    "jest-environment-jsdom-sixteen": "^2.0.0",
     "lit": "^2.0.0-rc.2",
     "rollup": "^2.57.0",
     "rollup-plugin-filesize": "^9.1.1",
@@ -43,8 +43,8 @@
     "rollup-plugin-typescript2": "^0.30.0",
     "rollup-plugin-url-resolve": "^0.2.0",
     "testing-library__dom": "^7.20.1-beta.1",
-    "ts-jest": "^26.5.6",
-    "typescript": "^3.9.9"
+    "ts-jest": "^27.0.5",
+    "typescript": "^4.4.3"
   },
   "peerDependencies": {
     "lit": "^2.0.0-rc.2"
@@ -59,6 +59,7 @@
     "printWidth": 110
   },
   "jest": {
+    "testEnvironment": "jsdom",
     "preset": "ts-jest/presets/js-with-babel",
     "testPathIgnorePatterns": [
       "build",
