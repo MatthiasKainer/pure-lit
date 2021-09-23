@@ -1,7 +1,5 @@
-import { html, LitElement, css } from "lit-element";
-import { useState, useReducer } from "lit-element-state-decoupler";
-import { pureLit } from "pure-lit";
-import { LitElementWithProps } from "pure-lit/types";
+import { html, LitElement, css } from "lit";
+import { LitElementWithProps, pureLit, useReducer, useState } from "pure-lit";
 
 type ListProps = { items: string[] };
 
