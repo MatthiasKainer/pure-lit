@@ -19,6 +19,10 @@ Find a demo [here](https://matthiaskainer.github.io/pure-lit/)
 
 `npm install pure-lit`
 
+or add it to your page as module like this:
+
+`<script type="module" src="https://unpkg.com/pure-lit@latest?module"></script>`
+
 ## Usage
 
 Register your lit-elements as pure functions.
