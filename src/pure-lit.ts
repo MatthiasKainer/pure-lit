@@ -1,9 +1,10 @@
-import { LitElement, TemplateResult } from "lit";
+import { html, LitElement, TemplateResult } from "lit";
 import {
   RegisteredElements,
   RenderFunction,
   LitElementWithProps,
   PureArguments,
+  AsyncRenderFunction,
 } from "./types";
 import { toProperties, isDefault } from "./properties";
 
@@ -11,12 +12,13 @@ export const registered: RegisteredElements = {};
 
 export const pureLit = <TProps>(
   name: string,
-  render: RenderFunction<TProps>,
+  render: AsyncRenderFunction<TProps> | RenderFunction<TProps>,
   args?: PureArguments<TProps>
 ): LitElementWithProps<TProps> => {
   if (registered[name]) return registered[name];
 
   class RuntimeRepresentation extends LitElement {
+    content: TemplateResult = html``;
     static get properties() {
       return toProperties(args);
     }
@@ -32,8 +34,12 @@ export const pureLit = <TProps>(
         })
       }
     }
+    protected async performUpdate(): Promise<unknown> {
+      this.content = await Promise.resolve(render((this as any) as LitElementWithProps<TProps>));
+      return super.performUpdate();
+    }
     render(): TemplateResult {
-      return render((this as any) as LitElementWithProps<TProps>);
+      return this.content;
     }
   }
 

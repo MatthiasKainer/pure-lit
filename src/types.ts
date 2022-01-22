@@ -22,6 +22,7 @@ export type PureArguments<TProps> = PropDefinedPureArguments<TProps> | DefaultDe
 export type LitElementWithProps<TProps> = LitElement & TProps
 
 export type RenderFunction<TProps> = (element: LitElementWithProps<TProps>) => TemplateResult
+export type AsyncRenderFunction<TProps> = (element: LitElementWithProps<TProps>) => Promise<TemplateResult>
 
 export type RegisteredElements = {
     [elementName: string] : LitElementWithProps<any>

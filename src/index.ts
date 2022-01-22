@@ -1,5 +1,5 @@
 export {pureLit} from "./pure-lit"
 export * from "./types"
-export {useState, useReducer, State, Reduce, Reducer } from "lit-element-state-decoupler"
+export {useState, useReducer, useWorkflow, State, Reduce, Reducer, Workflow, WorkflowHistory } from "lit-element-state-decoupler"
 export {useEffect, useOnce} from "lit-element-effect"
 export {dispatch} from "./dispatch"
