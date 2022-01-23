@@ -15,6 +15,19 @@ You can read an introduction here: [Write Less Code For Smaller Packages With `p
 
 Find a demo [here](https://matthiaskainer.github.io/pure-lit/)
 
+- [pure-lit](#pure-lit)
+  - [Install](#install)
+  - [Usage](#usage)
+  - [Interface](#interface)
+  - [Example using everything](#example-using-everything)
+  - [Error boundaries](#error-boundaries)
+  - [Testing](#testing)
+    - [Jest](#jest)
+  - [Advances usage](#advances-usage)
+    - [Reducer](#reducer)
+    - [Dispatch](#dispatch)
+  - [React and attributes](#react-and-attributes)
+
 ## Install
 
 `npm install pure-lit`
@@ -30,28 +43,18 @@ Register your lit-elements as pure functions.
 Import via
 
 ```ts
-import {pureLit} from "pureLit"
+import { pureLit } from "pureLit";
 
 // also contains the hooks from lit-element-state-decoupler & lit-element-effect
-import {
-  pureLit, 
-  useState, 
-  useReducer, 
-  useEffect, 
-  useOnce
-} from "pure-lit"
+import { pureLit, useState, useReducer, useEffect, useOnce } from "pure-lit";
 ```
 
 _index.ts_
 
 ```ts
-type Props = { who: string }
+type Props = { who: string };
 
-pureLit("hello-world",
-  ({who}: Props) => html`Hello ${who}!`,
-  { defaults: { who: "noone" } }
-);
-
+pureLit("hello-world", ({ who }: Props) => html`Hello ${who}!`, { defaults: { who: "noone" } });
 ```
 
 _index.html_
@@ -80,13 +83,13 @@ pureLit = <TProps>(
 )
 ```
 
-| name | description |
-|--|--|
-| `name` | the name of the custom element |
-| `render` | a function that gets a `LitElement` with specified `Props`, and returns a `lit-html` TemplateResult. Can be async |
-| `args.styles` | `lit-html` CSSResult or CSSResultArray to add styles to the custom component |
-| `args.props` | Property declarations for the element. A well defined PropertyDeclaration |
-| `args.defaults` | Set defaults for the properties. If set and no props are set, the PropertyDeclaration will be created for you |
+| name            | description                                                                                                       |
+| --------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `name`          | the name of the custom element                                                                                    |
+| `render`        | a function that gets a `LitElement` with specified `Props`, and returns a `lit-html` TemplateResult. Can be async |
+| `args.styles`   | `lit-html` CSSResult or CSSResultArray to add styles to the custom component                                      |
+| `args.props`    | Property declarations for the element. A well defined PropertyDeclaration                                         |
+| `args.defaults` | Set defaults for the properties. If set and no props are set, the PropertyDeclaration will be created for you     |
 
 ## Example using everything
 
@@ -110,9 +113,61 @@ pureLit("hello-world",
     ]
   }
 );
-  
+
 
 ```
+
+## Error boundaries
+
+Each pure-lit component will handle errors and not propagate them. Async functions will also show the error message, and allow you to create custom error templates by specifing slots.
+
+Take for example a simple list that looks like this:
+
+```js
+pureLit('posts-list', async (element) => {
+  const data = await fetch(element.src)
+    .then((response) => response.json());
+
+  return html`<ul>
+    ${data.map((entry) => html`<li>${entry.title}</li>`)}
+  </ul>`;
+}, {
+  defaults: { src: "" }
+});
+```
+
+Imagine the follow three usages in a page:
+
+```html
+    <div>
+      <h1>Success</h1>
+      <posts-list src="https://jsonplaceholder.typicode.com/posts">
+        Please wait while loading...
+      </posts-list>
+    </div>
+    <div>
+      <h1>Failure without template</h1>
+      <posts-list src="404">
+        Please wait while loading...
+      </posts-list>
+    </div>
+    <div>
+      <h1>Failure with slot template</h1>
+      <posts-list src="404">
+        Please wait while loading...
+        <div slot="error">
+          <h1>Error</h1>
+          <p>Something went wrong. Please try again later.</p>
+        </div>
+      </posts-list>
+    </div>
+```
+
+This will result in the following representation:
+
+![Different representations on the screen](docs/Different%20Errors.png)
+
+The successful one will show the list. The failing one without a `slot="error"` will show the error message, whereas the last one with the slot will display the slot.
 
 ## Testing
 
@@ -198,86 +253,75 @@ const todo = (state: string) => ({
 });
 
 pureLit("todo-add", (element: LitElement) => {
-    const { set, get } = useReducer(element, todo, "", {
-      // this is the line that dispatches a custom event for you
-      dispatchEvent: true,
-    });
-    const onComplete = () => get().length > 0 && (set("added"), set("update", ""));
-    const onUpdate = ({ value }: { value: string }) => set("update", value);
-    return html`
-      <div>
-        <input
-          type="text"
-          name="item"
-          .value="${get()}"
-          @input="${(e: InputEvent) => onUpdate(e.target as HTMLInputElement)}"
-          @keypress="${(e: KeyboardEvent) => e.key === "Enter" && onComplete()}"
-          placeholder="insert new item"
-        />
-        <button @click=${() => onComplete()}>
-          Add Item
-        </button>
-      </div>
-    `;
-  }
-);
-
+  const { set, get } = useReducer(element, todo, "", {
+    // this is the line that dispatches a custom event for you
+    dispatchEvent: true,
+  });
+  const onComplete = () => get().length > 0 && (set("added"), set("update", ""));
+  const onUpdate = ({ value }: { value: string }) => set("update", value);
+  return html`
+    <div>
+      <input
+        type="text"
+        name="item"
+        .value="${get()}"
+        @input="${(e: InputEvent) => onUpdate(e.target as HTMLInputElement)}"
+        @keypress="${(e: KeyboardEvent) => e.key === "Enter" && onComplete()}"
+        placeholder="insert new item"
+      />
+      <button @click=${() => onComplete()}>Add Item</button>
+    </div>
+  `;
+});
 ```
 
 ### Dispatch
 
 ```ts
-
 pureLit("todo-add", (element: LitElement) => {
-    const todo = useState(element, "");
+  const todo = useState(element, "");
 
-    const onComplete = () => {
-      if (todo.get().length > 0) {
-        // dipatch a custom event "added"
-        dispatch(element, "added", todo.get());
-        todo.set("");
-      }    
-    };
-    const onUpdate = ({ value }: { value: string }) => todo.set(value);
-    return html`
-      <div>
-        <input
-          type="text"
-          name="item"
-          .value="${todo.get()}"
-          @input="${(e: InputEvent) => onUpdate(e.target as HTMLInputElement)}"
-          @keypress="${(e: KeyboardEvent) => e.key === "Enter" && onComplete()}"
-          placeholder="insert new item"
-        />
-        <button @click=${() => onComplete()}>
-          Add Item
-        </button>
-      </div>
-    `;
-  }
-);
-
+  const onComplete = () => {
+    if (todo.get().length > 0) {
+      // dipatch a custom event "added"
+      dispatch(element, "added", todo.get());
+      todo.set("");
+    }
+  };
+  const onUpdate = ({ value }: { value: string }) => todo.set(value);
+  return html`
+    <div>
+      <input
+        type="text"
+        name="item"
+        .value="${todo.get()}"
+        @input="${(e: InputEvent) => onUpdate(e.target as HTMLInputElement)}"
+        @keypress="${(e: KeyboardEvent) => e.key === "Enter" && onComplete()}"
+        placeholder="insert new item"
+      />
+      <button @click=${() => onComplete()}>Add Item</button>
+    </div>
+  `;
+});
 ```
 
 Most powerful in combination with `pure-lit` and `lit-element-effect`. An example can be [found here](docs/Example.ts)
 
 ```ts
 pureLit("todo-app", (element: LitElement) => {
-    const { get, set } = useState<string[]>(element, []);
-    return html`
-      <div>
-        <todo-add @add=${(e: CustomEvent<string>) => set([...get(), e.detail])}></todo-add>
-      </div>
-      <div>
-        <todo-list
-          .items=${get()}
-          @remove=${(e: CustomEvent<string>) => set([...get().filter((el) => el === e.detail)])}
-        ></todo-list>
-      </div>
-    `;
-  }
-);
-
+  const { get, set } = useState<string[]>(element, []);
+  return html`
+    <div>
+      <todo-add @add=${(e: CustomEvent<string>) => set([...get(), e.detail])}></todo-add>
+    </div>
+    <div>
+      <todo-list
+        .items=${get()}
+        @remove=${(e: CustomEvent<string>) => set([...get().filter((el) => el === e.detail)])}
+      ></todo-list>
+    </div>
+  `;
+});
 ```
 
 ## React and attributes
@@ -304,14 +348,14 @@ Using this via lit-html looks like this:
 
 ```js
 const who = "me";
-return html`<hello-world .whoIsThere=${who} @knockknock=${e => console.log(e.detail)}></hello-world>`
+return html`<hello-world .whoIsThere=${who} @knockknock=${(e) => console.log(e.detail)}></hello-world>`;
 ```
 
 First, pure-lit changes `camelCase` attribute names to `dashed`, thus in jsx the component will look like this:
 
 ```jsx
 const who = "me";
-return <hello-world who-is-there={me}></hello-world>
+return <hello-world who-is-there={me}></hello-world>;
 ```
 
 Accessing the event is slightly more difficult.
