@@ -17,6 +17,7 @@ Find a demo [here](https://matthiaskainer.github.io/pure-lit/)
 
 - [pure-lit](#pure-lit)
   - [Install](#install)
+  - [Getting started](#getting-started)
   - [Usage](#usage)
   - [Interface](#interface)
   - [Example using everything](#example-using-everything)
@@ -35,6 +36,41 @@ Find a demo [here](https://matthiaskainer.github.io/pure-lit/)
 or add it to your page as module like this:
 
 `<script type="module" src="https://unpkg.com/pure-lit@latest?module"></script>`
+
+## Getting started
+
+The quickest way of getting started is by using JavaScript modules.
+
+Create a file `index.html` that looks like this:
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Awesome pure-lit</title>
+    <script type="module">
+      import { html } from "https://unpkg.com/lit@latest?module";
+      import { pureLit } from "https://unpkg.com/pure-lit@latest?module";
+
+      pureLit(
+        "hello-you",
+        async ({ who }) => {
+          return html`<div>Hello ${who}!</div>`;
+        },
+        {
+          defaults: { who: "" },
+        }
+      );
+    </script>
+  </head>
+  <body>
+    <hello-you who="me"></hello-you>
+  </body>
+</html>
+```
+
+Open it in the browser. Done. 
 
 ## Usage
 
@@ -124,43 +160,42 @@ Each pure-lit component will handle errors and not propagate them. Async functio
 Take for example a simple list that looks like this:
 
 ```js
-pureLit('posts-list', async (element) => {
-  const data = await fetch(element.src)
-    .then((response) => response.json());
+pureLit(
+  "posts-list",
+  async (element) => {
+    const data = await fetch(element.src).then((response) => response.json());
 
-  return html`<ul>
-    ${data.map((entry) => html`<li>${entry.title}</li>`)}
-  </ul>`;
-}, {
-  defaults: { src: "" }
-});
+    return html`<ul>
+      ${data.map((entry) => html`<li>${entry.title}</li>`)}
+    </ul>`;
+  },
+  {
+    defaults: { src: "" },
+  }
+);
 ```
 
 Imagine the follow three usages in a page:
 
 ```html
-    <div>
-      <h1>Success</h1>
-      <posts-list src="https://jsonplaceholder.typicode.com/posts">
-        Please wait while loading...
-      </posts-list>
+<div>
+  <h1>Success</h1>
+  <posts-list src="https://jsonplaceholder.typicode.com/posts"> Please wait while loading... </posts-list>
+</div>
+<div>
+  <h1>Failure without template</h1>
+  <posts-list src="404"> Please wait while loading... </posts-list>
+</div>
+<div>
+  <h1>Failure with slot template</h1>
+  <posts-list src="404">
+    Please wait while loading...
+    <div slot="error">
+      <h1>Error</h1>
+      <p>Something went wrong. Please try again later.</p>
     </div>
-    <div>
-      <h1>Failure without template</h1>
-      <posts-list src="404">
-        Please wait while loading...
-      </posts-list>
-    </div>
-    <div>
-      <h1>Failure with slot template</h1>
-      <posts-list src="404">
-        Please wait while loading...
-        <div slot="error">
-          <h1>Error</h1>
-          <p>Something went wrong. Please try again later.</p>
-        </div>
-      </posts-list>
-    </div>
+  </posts-list>
+</div>
 ```
 
 This will result in the following representation:
