@@ -20,7 +20,7 @@ Find a demo [here](https://matthiaskainer.github.io/pure-lit/)
   - [Getting started](#getting-started)
   - [Usage](#usage)
   - [Interface](#interface)
-  - [Example using everything](#example-using-everything)
+  - [Example using a lot of things](#example-using-a-lot-of-things)
   - [Error boundaries](#error-boundaries)
   - [Testing](#testing)
     - [Jest](#jest)
@@ -70,7 +70,7 @@ Create a file `index.html` that looks like this:
 </html>
 ```
 
-Open it in the browser. Done. 
+Open it in the browser. Done.
 
 ## Usage
 
@@ -127,31 +127,52 @@ pureLit = <TProps>(
 | `args.props`    | Property declarations for the element. A well defined PropertyDeclaration                                         |
 | `args.defaults` | Set defaults for the properties. If set and no props are set, the PropertyDeclaration will be created for you     |
 
-## Example using everything
+## Example using a lot of things
 
 ```ts
-type Props = { who: string }
+type Props = { who: string };
 
-pureLit("hello-world",
-  (element: LitElementWithProps<Props>) => html`Hello
-  <em @click=${() =>
-    dispatch(element, "highlight", element.who)
-    )}>
-      ${element.who}
-    </em>!`,
+const baseUrl = "https://jsonplaceholder.typicode.com/users"
+
+pureLit(
+  "hello-world",
+  async (element: LitElementWithProps<Props>) => {
+    const { name } = await fetch(`${baseUrl}/${element.id}`).then(
+      (response) => response.json()
+    );
+    const clicks = useState(element, 0)
+    return html`
+      <p>
+        Hello <em @click=${() => {
+          clicks.set(clicks.value + 1)
+          dispatch(element, "highlight", name)
+        }}> ${name} </em>!
+      </p>
+      <p>
+        You were clicked ${clicks.value} times
+      </p>`;
+  },
   {
     styles: [
-      css`:host { display:block; }`,
-      css`em { color: red; }`
-    ]
-    defaults: [
-      "who" : "noone",
-    ]
+      css`
+        :host {
+          display: block;
+        }
+      `,
+      css`
+        em {
+          color: red;
+        }
+      `,
+    ],
+    defaults: {
+      id: 1,
+    },
   }
 );
-
-
 ```
+
+For more examples see [MatthiasKainer/pure-lit-demos](https://github.com/MatthiasKainer/pure-lit-demos)
 
 ## Error boundaries
 
@@ -339,8 +360,6 @@ pureLit("todo-add", (element: LitElement) => {
   `;
 });
 ```
-
-Most powerful in combination with `pure-lit` and `lit-element-effect`. An example can be [found here](docs/Example.ts)
 
 ```ts
 pureLit("todo-app", (element: LitElement) => {
