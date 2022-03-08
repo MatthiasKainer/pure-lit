@@ -1,5 +1,12 @@
 # State
 
+State handling is provided by the two external libraries
+
+* [lit-element-state-decoupler](https://github.com/MatthiasKainer/lit-element-state-decoupler) - `useState`, `useReducer` and `useWorkflow` hooks
+* [lit-element-effect](https://github.com/MatthiasKainer/lit-element-effect) - `useEffect` and `useOnce` hooks
+
+See their respective repositories if there are open questions after these paragraphs.
+
 ## useState
 
 Getting access to the state can be done by calling the `useState` function.
