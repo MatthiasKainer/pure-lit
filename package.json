@@ -17,6 +17,8 @@
     "build:watch": "rollup -c --watch",
     "test": "jest --coverage",
     "test:badges": "npm test && npx jest-coverage-badges --output ./badges",
+    "documentation": "npm test && cp -r badges docs/badges",
+    "documentation:serve": "npm run documentation && npx docsify-cli serve ./docs",
     "release:beta": "npm test && npm run build && npm publish --tag=beta",
     "release:patch": "npm run test:badges && npm run build && npm version patch -m 'Creating new release %s' && git push && git push --tags && npx github-release-notes@0.17.1 release",
     "release:minor": "npm run test:badges && npm run build && npm version minor -m 'Creating new release %s' && git push && git push --tags && npx github-release-notes@0.17.1 release",
