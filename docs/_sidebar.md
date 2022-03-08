@@ -4,4 +4,5 @@
 * [Testing](testing.md#Testing)
 * [Error Handling](error-handling.md#error-boundaries)
 * [Advanced Usecases](advanced-usecases.md#Advanced-usage)
+* [State Handling](state.md#State)
 * [Interactive Example](interactive-example.md#interactive-example)
