@@ -11,7 +11,7 @@
     "dist": "rollup -c -m inline  --preserveSymlinks"
   },
   "dependencies": {
-    "lit": "^2.0.0-rc.2",
+    "lit": "^2.2.0",
     "pure-lit": "^1.2.3"
   },
   "devDependencies": {

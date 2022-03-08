@@ -1,11 +1,11 @@
 import { html, LitElement, css } from "lit";
-import { LitElementWithProps, pureLit, useReducer, useState } from "pure-lit";
+import { LitElementWithProps, pureLit, useReducer, useState, Reducer } from "pure-lit";
 
 type ListProps = { items: string[] };
 
-const add = (state: string) => ({
-  update: (payload: string) => payload,
-  add: () => state,
+const add: Reducer<string> = (state: string) => ({
+  update: (payload: string) => Promise.resolve(payload),
+  add: () => Promise.resolve(state),
 });
 
 pureLit(
@@ -43,17 +43,17 @@ pureLit(
 );
 
 pureLit("todo-add", (element) => {
-  const { publish, getState } = useReducer(element, add, "", {
+  const { get, set } = useReducer<string>(element, add, "", {
     dispatchEvent: true,
   });
-  const onComplete = () => getState().length > 0 && (publish("add"), publish("update", ""));
-  const onUpdate = ({ value }: { value: string }) => publish("update", value);
+  const onComplete = async () => get().length > 0 && (await set("add"), await set("update", ""));
+  const onUpdate = async ({ value }: { value: string }) => await set("update", value);
 
   return html`
     <input
       type="text"
       name="item"
-      .value="${getState()}"
+      .value="${get()}"
       @input="${(e: InputEvent) => onUpdate(e.target as HTMLInputElement)}"
       @keypress="${(e: KeyboardEvent) => e.key === "Enter" && onComplete()}"
       placeholder="insert new item"
@@ -65,15 +65,15 @@ pureLit("todo-add", (element) => {
 });
 
 pureLit("todo-app", (element: LitElement) => {
-  const { getState, publish } = useState<string[]>(element, []);
+  const { get, set } = useState<string[]>(element, []);
   return html`
     <div>
-      <todo-add @add=${(e: CustomEvent<string>) => publish([...getState(), e.detail])}></todo-add>
+      <todo-add @add=${(e: CustomEvent<string>) => set([...get(), e.detail])}></todo-add>
     </div>
     <div>
       <todo-list
-        .items=${getState()}
-        @remove=${(e: CustomEvent<string>) => publish([...getState().filter((el) => el !== e.detail)])}
+        .items=${get()}
+        @remove=${(e: CustomEvent<string>) => set([...get().filter((el) => el !== e.detail)])}
       ></todo-list>
     </div>
   `;
