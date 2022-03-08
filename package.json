@@ -47,11 +47,11 @@
     "typescript": "^4.4.3"
   },
   "peerDependencies": {
-    "lit": "^2.0.0-rc.2"
+    "lit": "^2.0.0"
   },
   "dependencies": {
     "lit-element-effect": "^1.0.2",
-    "lit-element-state-decoupler": "^2.0.0"
+    "lit-element-state-decoupler": "^2.0.2"
   },
   "prettier": {
     "trailingComma": "es5",
