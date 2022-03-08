@@ -17,12 +17,14 @@
 - With state, reducer and workflows
 
 <style>
-    pre {
+    .cover-code>pre {
         text-align: left;
         width: 72ch;
         margin: 0 auto;
     }
 </style>
+
+<div class="cover-code">
 
 ```html
 <script type="module">
@@ -33,6 +35,8 @@
 </script>
 <hello-world></hello-world>
 ```
+
+</div>
 
 [GitHub](https://github.com/MatthiasKainer/pure-lit)
 [Get Started](getting-started.md)
