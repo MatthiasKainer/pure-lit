@@ -21,6 +21,7 @@
         text-align: left;
         width: 72ch;
         margin: 0 auto;
+        font-size: 1vw;
     }
 </style>
 

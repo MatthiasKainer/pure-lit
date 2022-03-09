@@ -1,6 +1,6 @@
 # Rational
 
-The main idea behind pureLit is to reduce the amount of code one has to write. Compare the code you need for a standard Lit-Element with one where pure-lit was used to see the amount of code you can remove:
+The main idea behind pureLit is to reduce the amount of code one has to write. Compare the code you need for a standard Lit-Element with one where pure-lit to see the result:
     
 <style>
     .container {
@@ -13,6 +13,10 @@ The main idea behind pureLit is to reduce the amount of code one has to write. C
       flex-basis: 0;
       margin-left: 5px !important;
       margin-right: 5px !important;
+      line-height: 0.8vw !important;
+    }
+    .container>pre>code {
+      font-size: 0.5vw !important;
     }
 </style>
 <div class="container">
