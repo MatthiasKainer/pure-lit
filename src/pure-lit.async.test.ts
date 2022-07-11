@@ -22,7 +22,7 @@ describe("pure-lit async", () => {
     expect(Object.keys(registered).length).toBe(1);
   });  
   
-  it("renders the default correctly", async () => {
+  it("renders the default correctly", () => {
     expect(component.shadowRoot?.textContent).toContain("Hello noone!")
   });
   
@@ -41,7 +41,12 @@ describe("pure-lit async", () => {
 describe("pure-lit async failure", () => {
   type Props = { who: string | undefined }
   let component: LitElementWithProps<Props>
+  beforeAll(() => {
+    console.error = jest.fn()
+  })
+
   beforeEach(async () => {
+    
     component = pureLit("my-failing-component", 
       async (el : LitElementWithProps<Props>) => 
         el.who 
@@ -57,13 +62,21 @@ describe("pure-lit async failure", () => {
 
   afterEach(() => {
     document.body.removeChild(component)
-  })
+  });
+
+  afterAll(() => {
+    (console.error as any).mockRestore();
+  });
 
   it("creates a new component", () => {
     expect(component.outerHTML).toEqual("<my-failing-component><div slot=\"error\"></div></my-failing-component>");
   });  
+
+  it("logs the error to console log", () => {
+    expect(console.error).toBeCalledWith(html`<p>Noone to greet</p>`);
+  });  
   
-  it("renders the error slot correctly", async () => {
+  it("renders the error slot correctly", () => {
     expect(component.shadowRoot?.textContent).toContain("Noone to greet")
   });
   

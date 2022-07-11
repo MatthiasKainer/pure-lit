@@ -36,7 +36,7 @@ export const pureLit = <TProps>(
     }
     protected async performUpdate(): Promise<unknown> {
       this.content = await Promise.resolve(render((this as any) as LitElementWithProps<TProps>))
-        .catch(e => html`<slot name="error">${e}</slot>`);
+        .catch(e => (console.error(e), html`<slot name="error">${e}</slot>`));
       return super.performUpdate();
     }
     render(): TemplateResult {
