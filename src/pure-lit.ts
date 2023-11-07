@@ -7,6 +7,7 @@ import {
   AsyncRenderFunction,
 } from "./types";
 import { toProperties, isDefault } from "./properties";
+import { dispatch } from "./dispatch";
 
 export const registered: RegisteredElements = {};
 
@@ -34,10 +35,27 @@ export const pureLit = <TProps>(
         })
       }
     }
+    connectedCallback() {
+      super.connectedCallback()    
+      dispatch(this, "connected")
+    }
+
+    firstUpdated(changedProperties: Map<PropertyKey, unknown>) {
+      super.firstUpdated(changedProperties)
+      dispatch(this, "firstUpdated", changedProperties)
+    }
+    
+    attributeChangedCallback(name: string, old: string | null, value: string | null): void {
+        super.attributeChangedCallback(name, old, value)
+        dispatch(this, "attributeChanged", {name, old, value})
+    }
+
     protected async performUpdate(): Promise<unknown> {
       this.content = await Promise.resolve(render((this as any) as LitElementWithProps<TProps>))
         .catch(e => (console.error(e), html`<slot name="error">${e}</slot>`));
-      return super.performUpdate();
+      const result = await super.performUpdate();
+      dispatch(this, "updated")
+      return result
     }
     render(): TemplateResult {
       return this.content;
