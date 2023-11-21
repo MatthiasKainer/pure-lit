@@ -115,6 +115,12 @@ export const pureLit = <TProps>(
       dispatch(this, "attributeChanged", { name, old, value })
     }
 
+    reinitialize() {
+      this.suspense?.reset()
+      dispatch(this, "reinitialized")
+      this.requestUpdate()
+    }
+
     protected async performUpdate(): Promise<unknown> {
       if (this.suspense) {
         this.content = this.suspense.render((this as any) as LitElementWithProps<TProps>);

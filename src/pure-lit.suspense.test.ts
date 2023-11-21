@@ -63,4 +63,16 @@ describe("pure-lit suspense happy case", () => {
     await new Promise(process.nextTick)
     expect(component.shadowRoot?.textContent).toContain("Hello John!");
   });
+
+  it("reinitializes correctly", async () => {
+    release()
+    component.setAttribute("who", "John")
+    await component.updateComplete
+    release()
+    // suspense is slighty more async then your regular component
+    await new Promise(process.nextTick)
+    expect(component.shadowRoot?.textContent).toContain("Hello John!");
+
+    component.reinitialize()
+  });
 });

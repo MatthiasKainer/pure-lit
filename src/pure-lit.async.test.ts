@@ -30,6 +30,11 @@ describe("pure-lit async", () => {
     component.setAttribute("who", "John")
     await component.updateComplete
     expect(component.shadowRoot?.textContent).toContain("Hello John!");
+
+    // props survive rerender
+    component.reinitialize()
+    await component.updateComplete
+    expect(component.shadowRoot?.textContent).toContain("Hello John!");
   });
 
   it("does not duplicate the component if it already exists", () => {
