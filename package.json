@@ -19,9 +19,9 @@
     "test:badges": "npm test && npx jest-coverage-badges --output ./docs/badges",
     "documentation": "npx docsify-cli serve ./docs",
     "release:beta": "npm test && npm run build && npm publish --tag=beta",
-    "release:patch": "npm run test:badges && npm run build && npm version patch -m 'Creating new release %s' && git push && git push --tags && npx github-release-notes@0.17.1 release",
-    "release:minor": "npm run test:badges && npm run build && npm version minor -m 'Creating new release %s' && git push && git push --tags && npx github-release-notes@0.17.1 release",
-    "release:major": "npm run test:badges && npm run build && npm version major -m 'Creating new release %s' && git push && git push --tags && npx github-release-notes@0.17.1 release"
+    "release:patch": "npm run test:badges && npm run build && npm version patch -m 'Creating new release %s' && git push && git push --tags",
+    "release:minor": "npm run test:badges && npm run build && npm version minor -m 'Creating new release %s' && git push && git push --tags",
+    "release:major": "npm run test:badges && npm run build && npm version major -m 'Creating new release %s' && git push && git push --tags"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.15.6",
