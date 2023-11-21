@@ -8,6 +8,7 @@ export type PropDefinedPureArguments<TProps> = {
     styles?: CSSResultGroup
     props?: (PurePropertyDeclaration | string)[]
     defaults?: TProps & DefaultObjectDefinition
+    suspense?: TemplateResult
 }
 
 export type DefaultObjectDefinition = {[key: string]: unknown}
@@ -15,6 +16,7 @@ export type DefaultObjectDefinition = {[key: string]: unknown}
 export type DefaultDefinedPureArguments<TProps> = {
     styles?: CSSResult | CSSResultArray
     defaults?: TProps & DefaultObjectDefinition
+    suspense?: TemplateResult
 }
 
 export type PureArguments<TProps> = PropDefinedPureArguments<TProps> | DefaultDefinedPureArguments<TProps>

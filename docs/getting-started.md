@@ -72,6 +72,7 @@ pureLit = <TProps>(
 | `args.styles`   | `lit-html` CSSResult or CSSResultArray to add styles to the custom component                                      |
 | `args.props`    | Property declarations for the element. A well defined PropertyDeclaration                                         |
 | `args.defaults` | Set defaults for the properties. If set and no props are set, the PropertyDeclaration will be created for you     |
+| `args.suspense` | A placeholder that will be shown while an async result is loading     |
 
 
 ## Adding some state 
@@ -134,6 +135,32 @@ pureLit("hello-incrementor",
     defaults: {
       id: 1,
     },
+  }
+);
+```
+
+## Example for a slow backend url
+
+```typescript
+type Props = { id: number };
+
+const baseUrl = "https://jsonplaceholder.typicode.com/users"
+
+pureLit("hello-incrementor",
+  // this is an async function, allowing us to await
+  async () => {
+    // The api is fast, so we just wait for a second for fun
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    const { name } = await fetch("https://jsonplaceholder.typicode.com/users/1")
+        .then((response) => response.json());
+    return html`
+      <p>
+        Hello ${name} </em>!
+      </p>`;
+  },
+  {
+    // this will be shown while we wait for the promise to resolve
+    suspense: html`please wait while loading...`,
   }
 );
 ```
