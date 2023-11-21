@@ -2,7 +2,7 @@ import { pureLit } from "./pure-lit";
 import { html, css } from "lit";
 import { LitElementWithProps } from "./types";
 
-describe("pure-lit with prop specs", () => {
+describe("pure-lit with prop by default specs", () => {
   type Props = { who: string, whoElse: string }
   let component: LitElementWithProps<Props>
   beforeEach(() => {
@@ -10,7 +10,10 @@ describe("pure-lit with prop specs", () => {
       (el : LitElementWithProps<Props>) => html`<p>Hello ${el.who}${el.whoElse}!</p>`,
       { 
         styles: [css`:host {}`],
-        props: [ {"who": {type: String} }, {"whoElse": {type: String}} ]
+        defaults: {
+          who: "",
+          whoElse: ""
+        }
       });
     document.body.appendChild(component)
   })
