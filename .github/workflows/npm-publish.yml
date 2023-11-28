@@ -21,7 +21,7 @@ jobs:
 
   create-release:
     name: Create release
-    needs: build
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -37,7 +37,7 @@ jobs:
         uses: softprops/action-gh-release@v1
 
   publish-npm:
-    needs: build
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
