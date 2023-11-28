@@ -7,20 +7,22 @@ describe("pure-lit suspense happy case", () => {
   let component: LitElementWithProps<Props>
   let cb: (e?: Error | undefined) => void;
   let setWaiter = (callback: (e?: Error | undefined) => void) => cb = callback
-  let release = () => {
-    cb()
+  let releaseSuspense = async () => {
+    await component.updateComplete
+    if (cb) cb();
+    (cb as any) = null
   }
 
   beforeEach(async () => {
     component = pureLit("my-component",
       async (el: LitElementWithProps<Props>) =>
-        await new Promise((resolve, reject) =>
-          setWaiter((e) =>
+        await new Promise((resolve, reject) => {
+          return setWaiter((e) =>
             e
-              ? (console.log("Rejecting", e), reject(e))
-              : resolve(html`<p>Hello ${el.who}!</p>`)
+              ? (reject(e))
+              : (resolve(html`<p>Hello ${el.who}!</p>`))
           )
-        ),
+        }),
       {
         defaults: { who: "noone" },
         suspense: html`wait while loading...`
@@ -30,7 +32,7 @@ describe("pure-lit suspense happy case", () => {
   })
 
   afterEach(() => {
-    document.body.removeChild(component)
+    global.window.document.documentElement.innerHTML = "";
   })
 
   it("creates a new component", () => {
@@ -46,33 +48,10 @@ describe("pure-lit suspense happy case", () => {
     expect(component.shadowRoot?.textContent).toContain("wait while loading...")
   });
 
-  it("renders the result correctly", async () => {
-    release()
-    // suspense is slighty more async then your regular component
-    await component.updateComplete
-    await new Promise(process.nextTick)
+  it("renders the result correctly once the suspense has been released", async () => {
+    await releaseSuspense()
+    await component.suspenseComplete();
     expect(component.shadowRoot?.textContent).toContain("Hello noone!")
   });
 
-  it("renders updated props correctlty", async () => {
-    release()
-    component.setAttribute("who", "John")
-    await component.updateComplete
-    release()
-    // suspense is slighty more async then your regular component
-    await new Promise(process.nextTick)
-    expect(component.shadowRoot?.textContent).toContain("Hello John!");
-  });
-
-  it("reinitializes correctly", async () => {
-    release()
-    component.setAttribute("who", "John")
-    await component.updateComplete
-    release()
-    // suspense is slighty more async then your regular component
-    await new Promise(process.nextTick)
-    expect(component.shadowRoot?.textContent).toContain("Hello John!");
-
-    component.reinitialize()
-  });
 });

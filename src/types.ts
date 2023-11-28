@@ -21,7 +21,7 @@ export type DefaultDefinedPureArguments<TProps> = {
 
 export type PureArguments<TProps> = PropDefinedPureArguments<TProps> | DefaultDefinedPureArguments<TProps>
 
-export type LitElementWithProps<TProps> = LitElement & TProps & { reinitialize : () => void }
+export type LitElementWithProps<TProps> = LitElement & TProps & { reinitialize : () => void, suspenseComplete: () => Promise<boolean> }
 
 export type RenderFunction<TProps> = (element: LitElementWithProps<TProps>) => TemplateResult
 export type AsyncRenderFunction<TProps> = (element: LitElementWithProps<TProps>) => Promise<TemplateResult>

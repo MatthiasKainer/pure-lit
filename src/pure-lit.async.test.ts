@@ -31,11 +31,22 @@ describe("pure-lit async", () => {
     await component.updateComplete
     expect(component.shadowRoot?.textContent).toContain("Hello John!");
 
-    // props survive rerender
-    component.reinitialize()
+    // updated props survive rerender
+    component.requestUpdate()
     await component.updateComplete
     expect(component.shadowRoot?.textContent).toContain("Hello John!");
+
+    // updated props don't survive reinit
+    component.reinitialize()
+    await component.updateComplete
+    expect(component.shadowRoot?.textContent).toContain("Hello noone!");
   });
+
+  it("doesn't fail on calls to suspense waiter, even if there is no suspense", async () => {
+    component.setAttribute("who", "Connor")
+    await component.suspenseComplete()
+    expect(component.shadowRoot?.textContent).toContain("Hello Connor!");
+  })
 
   it("does not duplicate the component if it already exists", () => {
     pureLit("my-component", () => html``);

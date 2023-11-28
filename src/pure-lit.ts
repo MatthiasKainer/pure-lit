@@ -24,6 +24,8 @@ class SuspenseRender<TProps> {
   result: TemplateResult;
   renderLater: AsyncRenderFunction<TProps> | RenderFunction<TProps>;
   onChanged: () => void
+  #waitForComplete: (() => void)[] = []
+  #onComplete: () => void = () => { this.#waitForComplete.forEach(completion => completion()) }
 
   constructor(
     suspense: TemplateResult,
@@ -37,7 +39,26 @@ class SuspenseRender<TProps> {
   }
 
   reset() {
+    // clean up all waits
+    this.#onComplete()
+    this.#waitForComplete = []
     this.status = SuspenseStatus.INITAL;
+  }
+
+  complete(): Promise<boolean> {
+    const queue = this.#waitForComplete
+    return new Promise(r => {
+      if (this.status === SuspenseStatus.COMPLETE) {
+        r(true);
+      } else {
+        let queued = () => {
+          r(true)
+          // remove yourself
+          queue.splice(queue.indexOf(queued), 1)
+        }
+        queue.push(queued)
+      }
+    })
   }
 
   render(element: LitElementWithProps<TProps>) {
@@ -50,12 +71,14 @@ class SuspenseRender<TProps> {
           .then(result => (
             this.result = result,
             this.status = SuspenseStatus.COMPLETE,
+            this.#onComplete(),
             this.onChanged()
           ))
           .catch(e => (
             console.error(e),
             this.result = html`<slot name="error">${e}</slot>`,
             this.status = SuspenseStatus.COMPLETE,
+            this.#onComplete(),
             this.onChanged()
           ));
 
@@ -117,8 +140,22 @@ export const pureLit = <TProps>(
 
     reinitialize() {
       this.suspense?.reset()
+      if (isDefault(args)) {
+        Object.entries(args!.defaults!).forEach(([key, value]) => {
+          (this as any)[key] = value
+        })
+      }
       dispatch(this, "reinitialized")
       this.requestUpdate()
+    }
+
+    async suspenseComplete(): Promise<boolean> {
+      // first complete any open tasks
+      await this.updateComplete
+      // wait until the suspense is done
+      await this.suspense?.complete() ?? Promise.resolve(true)
+      // wait until the changes are processed
+      return this.updateComplete
     }
 
     protected async performUpdate(): Promise<unknown> {
